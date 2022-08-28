@@ -13,8 +13,7 @@ public class Group : MonoBehaviour
     // last key pressed time, to handle long press behavior
     private float lastKeyDown;
     private float timeKeyPressed;
-    [SerializeField] float maxCoolTime = 0.1f;
-    float coolTime = 0.1f;
+    float coolTime = Grid.GameStats.bolckSpped;
 
     public void AlignCenter()
     {
@@ -217,16 +216,16 @@ public class Group : MonoBehaviour
         }
         else
         {
-            if (coolTime >= maxCoolTime)
+            if (coolTime >= Grid.GameStats.bolckSpped)
             {
                 coolTime -= Time.deltaTime;
                 fallGroup();
             }
-            else if (coolTime < maxCoolTime)
+            else if (coolTime < Grid.GameStats.bolckSpped)
             {
                 if (coolTime <= 0)
                 {
-                    coolTime = maxCoolTime;
+                    coolTime = Grid.GameStats.bolckSpped;
                 }
                 else
                     coolTime -= Time.deltaTime;

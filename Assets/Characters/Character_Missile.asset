@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26ecf1f39b968d04caabaa6729ebb4ce, type: 3}
+  m_Name: Character_Missile
+  m_EditorClassIdentifier: 
+  name: Missile
+  characterType: 3
+  characterLevel: 0
+  characterColor: {r: 0.23207769, g: 0.18118544, b: 0.8207547, a: 0}
+  characterObj: {fileID: 4988308079229017378, guid: 9864c5dbe8a00d041a76f7c3d8a42182, type: 3}
