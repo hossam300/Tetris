@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Score: 0
   ChangeLeveScore: 200
-  bolckSpped: 0.25
+  bolckSpped: 1
   rotateSpeed: 6
   isAutoRotate: 1
   landAudio: {fileID: 8300000, guid: c7edc5eb2fec1c54799b7bf0bfbc4dfe, type: 3}
