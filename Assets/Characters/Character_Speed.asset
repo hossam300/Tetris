@@ -15,5 +15,5 @@ MonoBehaviour:
   name: Speedy
   characterType: 1
   characterLevel: 0
-  characterColor: {r: 0.16518518, g: 0.9716981, b: 0.15033813, a: 0}
+  characterColor: {r: 0.16518518, g: 0.9716981, b: 0.15033813, a: 1}
   characterObj: {fileID: 8372691403119117429, guid: 2ff0fa5478f1a6c4baf2d45dc2645573, type: 3}

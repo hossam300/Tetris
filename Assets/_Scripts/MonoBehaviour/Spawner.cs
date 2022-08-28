@@ -29,7 +29,8 @@ public class Spawner : MonoBehaviour {
 	// spawnNext group block
 	public void spawnNext() {
 		// Spawn Group at current Position
-        createGroup(transform.position);
+		AudioManager.Instance.PlaySoundFxSource(CharcterManager.Instance.GameStats.landAudio);
+		createGroup(transform.position);
         nextId = Random.Range(0, groups.Length);
 	}
 }

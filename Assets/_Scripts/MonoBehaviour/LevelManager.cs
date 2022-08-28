@@ -32,7 +32,7 @@ public class LevelManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (ScoreManager.score >= level * 1000)
+        if (ScoreManager.score >= level * CharcterManager.Instance.GameStats.ChangeLeveScore)
         {
             level += 1;
             Light.color = new Color
@@ -41,8 +41,12 @@ public class LevelManager : MonoBehaviour
                               Random.Range(0f, 1f),
                               Random.Range(0f, 1f)
                             );
+            CharcterManager.Instance.GameStats.bolckSpped -= CharcterManager.Instance.GameStats.levelIncressSpeed;
+            AudioManager.Instance.PlaySoundFxSource(CharcterManager.Instance.GameStats.ChangeLevelAudio);
+             var type = (CharacterType)Random.Range(1, 2);
+            CharcterManager.Instance.AddChacters(type);
+            AudioManager.Instance.MainSource.pitch += 0.25f;
         }
         levelText.text = level.ToString();
-        Grid.GameStats.bolckSpped -= 0.1f;
     }
 }

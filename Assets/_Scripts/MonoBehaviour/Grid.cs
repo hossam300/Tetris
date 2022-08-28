@@ -14,7 +14,7 @@ public class Grid : MonoBehaviour
     public static int h = 20;
     // grid storing the Transform element
     public static Transform[,] grid = new Transform[w, h];
-    public static GameStats GameStats;
+  
     // convert a real vector to discret coordinates using Mathf.Round
     public static Vector2 roundVector2(Vector2 v)
     {
@@ -88,6 +88,7 @@ public class Grid : MonoBehaviour
         {
             if (isRowFull(y))
             {
+                AudioManager.Instance.PlaySoundFxSource(CharcterManager.Instance.GameStats.rowDestroyAudio);
                 yield return deleteRow(y);
                 decreaseRowAbove(y + 1);
                 // add new points to score when a row is deleted

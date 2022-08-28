@@ -15,5 +15,5 @@ MonoBehaviour:
   name: Rotate
   characterType: 2
   characterLevel: 0
-  characterColor: {r: 0.11448912, g: 0.9056604, b: 0.7419632, a: 0}
-  characterObj: {fileID: 4372920398135587010, guid: 3353d6a210b378f49984dd2bc080228b, type: 3}
+  characterColor: {r: 0.11448912, g: 0.9056604, b: 0.7419632, a: 1}
+  characterObj: {fileID: 73459888228160238, guid: 7e3f33910410d3a48af433a1622ac514, type: 3}

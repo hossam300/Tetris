@@ -13,11 +13,12 @@ public class Group : MonoBehaviour
     // last key pressed time, to handle long press behavior
     private float lastKeyDown;
     private float timeKeyPressed;
-    float coolTime = Grid.GameStats.bolckSpped;
-
+    float coolTime;
+    float coolTimeRotate;
     public void AlignCenter()
     {
         transform.position += transform.position - Utils.Center(gameObject);
+
     }
 
 
@@ -59,7 +60,7 @@ public class Group : MonoBehaviour
                 }
             }
         }
-
+        
         insertOnGrid();
     }
 
@@ -71,6 +72,7 @@ public class Group : MonoBehaviour
             Vector2 v = Grid.roundVector2(child.position);
             Grid.grid[(int)v.x, (int)v.y] = child;
         }
+      
     }
 
     void gameOver()
@@ -83,6 +85,8 @@ public class Group : MonoBehaviour
         }
         updateGrid(); // to not overleap invalid groups
         enabled = false; // disable script when dies
+        AudioManager.Instance.MainSource.pitch = 1;
+        AudioManager.Instance.PlaySoundMainSource(CharcterManager.Instance.GameStats.GameOver);
         UIController.gameOver(); // active Game Over panel
         Highscore.Set(ScoreManager.score); // set highscore
         //Music.stopMusic(); // stop Music
@@ -94,6 +98,7 @@ public class Group : MonoBehaviour
         lastFall = Time.time;
         lastKeyDown = Time.time;
         timeKeyPressed = Time.time;
+        coolTime = CharcterManager.Instance.GameStats.bolckSpped;
         if (isValidGridPos())
         {
             insertOnGrid();
@@ -131,6 +136,7 @@ public class Group : MonoBehaviour
         if (isValidGridPos())
         {
             // It's valid. Update grid... again
+        //    AudioManager.Instance.PlaySoundFxSource(CharcterManager.Instance.GameStats.landAudio);
             updateGrid();
         }
         else
@@ -216,21 +222,38 @@ public class Group : MonoBehaviour
         }
         else
         {
-            if (coolTime >= Grid.GameStats.bolckSpped)
+            if (coolTime >= CharcterManager.Instance.GameStats.bolckSpped)
             {
                 coolTime -= Time.deltaTime;
                 fallGroup();
             }
-            else if (coolTime < Grid.GameStats.bolckSpped)
+            else if (coolTime < CharcterManager.Instance.GameStats.bolckSpped)
             {
                 if (coolTime <= 0)
                 {
-                    coolTime = Grid.GameStats.bolckSpped;
+                    coolTime = CharcterManager.Instance.GameStats.bolckSpped;
                 }
                 else
                     coolTime -= Time.deltaTime;
             }
         }
-
+        if (CharcterManager.Instance.GameStats.isAutoRotate)
+        {
+            if (coolTimeRotate >= CharcterManager.Instance.GameStats.rotateSpeed)
+            {
+                coolTimeRotate -= Time.deltaTime;
+                transform.Rotate(0, 0, -90);
+            }
+            else if (coolTimeRotate < CharcterManager.Instance.GameStats.rotateSpeed)
+            {
+                if (coolTimeRotate <= 0)
+                {
+                    coolTimeRotate = CharcterManager.Instance.GameStats.rotateSpeed;
+                }
+                else
+                    coolTimeRotate -= Time.deltaTime;
+            }
+            
+        }
     }
 }

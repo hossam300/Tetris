@@ -1,27 +1,29 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class CharacterController : MonoBehaviour
 {
     public CharacterLevel level;
-    public float timer = 0.5f;
+    float timer;
     // Start is called before the first frame update
     void Start()
     {
-        level = CharacterLevel.Normal;
+        level = CharacterLevel.VeryGood;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (timer >= Grid.GameStats.bolckSpped)
+        if (timer >= CharcterManager.Instance.GameStats.MoodTimer)
         {
             timer -= Time.deltaTime;
             switch (level)
             {
                 case CharacterLevel.VeryBad:
-                    Destroy(gameObject, 2f);
+                    //  Destroy(gameObject, 2f);
                     break;
                 case CharacterLevel.Bad:
                     level = CharacterLevel.VeryBad;
@@ -37,16 +39,24 @@ public class CharacterController : MonoBehaviour
                     break;
             }
         }
-        else if (timer < Grid.GameStats.bolckSpped)
+        else if (timer < CharcterManager.Instance.GameStats.MoodTimer)
         {
             if (timer <= 0)
             {
-                timer = Grid.GameStats.bolckSpped;
+                timer = CharcterManager.Instance.GameStats.MoodTimer;
             }
             else
                 timer -= Time.deltaTime;
         }
     }
+
+    public void UseCharacter(GameObject gameObject)
+    {
+        var character = CharcterManager.Instance.ownChracter.FirstOrDefault(c => c.characterObj.name == gameObject.name);
+        character.characterLevel = gameObject.GetComponent<CharacterController>().level;
+        CharcterManager.Instance.UseChacters(character);
+    }
+
     public void ChangeCharacterLevel(CharacterLevel characterLevel)
     {
         level = characterLevel;

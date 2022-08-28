@@ -10,18 +10,35 @@ public class CharcterManager : StaticInstance<CharcterManager>
     // Start is called before the first frame update
     public List<Characters> chracters = new List<Characters>();
     public List<Characters> ownChracter = new List<Characters>();
+    public GameStats GameStats;
     static Transform parent;
+    public Vector2 offset = new Vector2(1, 1);
+    [SerializeField] LayerMask charactersLayer;
+    Camera myCam;
     void Start()
     {
         parent = gameObject.transform;
+        myCam = Camera.main;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (ScoreManager.score >= LevelManager.level * 1000)
+        if (Input.GetMouseButtonDown(0))
         {
-            AddChacters((CharacterType)Enum.ToObject(typeof(CharacterType), UnityEngine.Random.Range(1, 4)));
+            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10)), Vector2.zero, 0.1f, charactersLayer);
+
+            if (hit.collider != null)
+            {
+                print(hit.collider.gameObject.name);
+                if (hit.collider.gameObject.GetComponent<CharacterController>() != null)
+                {
+                    hit.collider.gameObject.GetComponent<CharacterController>().UseCharacter(hit.collider.gameObject);
+                }
+            }
+
+
+            //}
         }
     }
     public void AddChacters(CharacterType characterType)
@@ -29,13 +46,18 @@ public class CharcterManager : StaticInstance<CharcterManager>
         var chracter = chracters.FirstOrDefault(c => c.characterType == characterType);
         chracter.characterObj.GetComponent<SpriteRenderer>().color = chracter.characterColor;
         ownChracter.Add(chracter);
-        Instantiate(chracter.characterObj, parent.position, Quaternion.identity);
+        print(chracter.name);
+        offset.x = UnityEngine.Random.Range(-1, 1);
+        offset.y = UnityEngine.Random.Range(-2, 2);
+        var obj = Instantiate(chracter.characterObj, new Vector3(parent.position.x + offset.x, parent.position.y + offset.y, 0), Quaternion.identity);
+        obj.transform.parent = gameObject.transform;
     }
     public void UseChacters(Characters characters)
     {
         switch (characters.characterType)
         {
             case CharacterType.Speed:
+                print("use speed");
                 ChangeGameSpeed(characters.characterLevel);
                 break;
             case CharacterType.Rotate:
@@ -92,22 +114,24 @@ public class CharcterManager : StaticInstance<CharcterManager>
         switch (characterLevel)
         {
             case CharacterLevel.VeryBad:
-                Grid.GameStats.isAutoRotate = true;
-                Grid.GameStats.rotateSpeed = 0.25f;
+                GameStats.isAutoRotate = true;
+                GameStats.rotateSpeed = 5f;
                 break;
             case CharacterLevel.Bad:
-                Grid.GameStats.isAutoRotate = true;
-                Grid.GameStats.rotateSpeed = 0.5f;
+                GameStats.isAutoRotate = true;
+                GameStats.rotateSpeed = 7f;
                 break;
             case CharacterLevel.Normal:
-                Grid.GameStats.isAutoRotate = true;
-                Grid.GameStats.rotateSpeed = 1;
+                GameStats.isAutoRotate = true;
+                GameStats.rotateSpeed = 10;
                 break;
             case CharacterLevel.Good:
-                Grid.GameStats.isAutoRotate = false;
+                GameStats.isAutoRotate = false;
+                GameStats.rotateSpeed = 0;
                 break;
             case CharacterLevel.VeryGood:
-                Grid.GameStats.isAutoRotate = false;
+                GameStats.isAutoRotate = false;
+                GameStats.rotateSpeed = 0;
                 break;
         }
     }
@@ -117,19 +141,19 @@ public class CharcterManager : StaticInstance<CharcterManager>
         switch (characterLevel)
         {
             case CharacterLevel.VeryBad:
-                Grid.GameStats.bolckSpped = 2;
+                GameStats.bolckSpped = 0.25f;
                 break;
             case CharacterLevel.Bad:
-                Grid.GameStats.bolckSpped = 1.5f;
+                GameStats.bolckSpped = 0.5f;
                 break;
             case CharacterLevel.Normal:
-                Grid.GameStats.bolckSpped = 1f;
+                GameStats.bolckSpped = 1f;
                 break;
             case CharacterLevel.Good:
-                Grid.GameStats.bolckSpped = 0.5f;
+                GameStats.bolckSpped = 1.5f;
                 break;
             case CharacterLevel.VeryGood:
-                Grid.GameStats.bolckSpped = 0.25f;
+                GameStats.bolckSpped = 2f;
                 break;
         }
     }
